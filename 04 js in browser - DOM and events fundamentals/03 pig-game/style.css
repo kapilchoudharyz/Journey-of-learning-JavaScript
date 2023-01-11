@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-transform:uppercase;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Nunito Sans', sans-serif;
+    position: relative;
+    font-weight: 400;
+    height: 100vh;
+    color: black;
+    background-image: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+main{
+    /* flex: 50%; */
+    background-color: rgb(231, 140, 155);
+    width: 70rem;
+    height: 41rem;
+    /* border: 2px solid black; */
+    border-radius: 1rem;
+    box-shadow: 0px 3px 25px black;
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    /* padding: 10rem; */
+}
+.active--player{
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 1rem;
+}
+.currentscore-card{
+    width:15rem;
+    height: 8rem;
+    /* border: 2px solid black; */
+    border-radius: 1rem;
+    padding: 1rem;
+    /* text-align: center; */
+    background-color: rgba(179, 37, 42, 0.927);
+    /* border: 1px solid black; */
+    box-shadow: 2px 5px 20px black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: larger;
+}
+.player-card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+    flex-direction: column;
+    
+}
+.container-left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    border-right: 3px solid whitesmoke;
+}
+.container-right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    border-left: 3px solid whitesmoke;
+}
+.main-score-card{
+    margin-bottom: 5rem;
+    /* border: 2px solid black; */
+    text-align: center;
+    font-size: larger;
+    padding: 2rem;
+
+}
+h1{
+    font-size: 2.5rem;
+}
+.score{
+    margin-top: 1rem;
+    font-size: 3.2rem;
+    font-weight: 500;
+}
+.current{
+    margin-bottom: 1rem;
+}
+.current-score{
+    font-size: 2.5rem;
+}
+.btn{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: inherit;
+   
+    
+}
+.new-game{
+    top: 20%;
+    padding: 0.75rem 3rem;
+    border: none;
+    border-radius: 1rem;
+}
+.hold-score{
+    border: none;
+    bottom: 25%;
+    padding: 0.75rem 3rem;
+    border-radius: 1rem;
+}
+.roll-dice{
+    border: none;
+    padding: 0.75rem 3rem;
+    bottom: 35%;
+    border-radius: 1rem;
+}
+.dice{
+    width: 3rem;
+    height: 3rem;
+    top: 40%;
+}
+.hidden{
+    display: none;
+}
+.player--winner{
+    background-color: greenyellow;
+}

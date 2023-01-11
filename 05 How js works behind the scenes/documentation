@@ -1,0 +1,44 @@
+1.Javascript is high-level prototype based object oriented multi paradigm interpreted or compilde just in time dynamic single-threaded garbage collected programming language with first class functions and a non blocking event loop concurrency model.
+    1.High-level - Every computer programmes need resources.In low level programming languages developer have to manually manage the resources(like asking the computer for memory to create a new varibale) while in high level programming this is done automatically.
+
+    2.Garbage-collection - It is basically an algorithm in javascript engine which removes all the unused object from the computer memory
+
+    3.Multi paradugm
+
+    4.interpreted or just in time compiled -
+
+    5.dynamic - In js we dont have to assign the data types.Datatypes become known during the run time. Datatypes of variable changes automatically when we reassign them. This is what dynamically typed language means.
+
+    6.
+
+    7.Garbage collection - It means that it clears the memory automatically.
+
+    8.First class function - In a language with first class function , functions are like variables.We can pass into other functions and return them from functions(passing a function into another function as an argument : First-Class functions)
+
+    9.Single-threaded Event-loop concurrency model :- As js is single threaded, during the long running task it would block the single thread however we want non-blocking behaviour. We can achieve that using Event loop. Even loop takes the long running tasks and exexcutes them in the background and puts them back in the main thread once they are finished.
+        concurrency model: How the js engine handles multiple tasks happening at the same time
+        single - threaded :- Js is single threaded. So it can only do one thing at a time
+
+2. Javacript engine :- Its a proramme that execute the js code.
+    Every js engine contain a call stack and Heap
+        1.Call stack:- In call stack our code is execetd using execution context.
+        2.Heap:- Heap is an unstructured memory pool where all the object which our application need are stored.
+    Note:- Diffrence between compilation and interpretation.
+            Every machine run on machine code which is 0 and 1
+            compilation:- code is converted to machine code at once and written to a binary file that can be executed by a computer.
+            .
+            First the source code is complied to machine code (Portable file) then the code is executed(Can happen way after compilation) and the programme runs.
+.
+            Interpretation:- Interpreter runs through the source code execcutes it line by line.
+            .
+            Source code(converted to machine code right before the execution) exeution line by line(Code still need to be converted to machine code) and programme runs.
+.
+        Modern js now uses mix between compilation and interpretation which is called 'just in time compilation'
+            .
+            Just-in-time (JIT) compilation:- Inthis process entire code is convertedd to machine code at once and then executed immediately.
+.
+            First the source code is complied to machine code at once andthen the code is executed immediately and the programme runs.
+
+
+
+            
