@@ -1,4 +1,5 @@
 'use strict';
+
 /*
 const bookings = [];
 const createBooking = function (
@@ -163,7 +164,7 @@ book.call(swiss, ...flightData);
 
 book.call(euroWings, 25, 'Jai Singh');
 
-//Just like call method bind method also set the this keyword manually.The diffrence is that it does not immediately calls the function but instead it returns a new function in which the this keyword is bond by the by method manually.
+//Just like call method bind method also set the this keyword manually.The diffrence is that it does not immediately calls the function but instead it returns a new function in which the this keyword is bond by the bind method manually.
 
 const bookEW = book.bind(euroWings);
 
@@ -179,4 +180,38 @@ bookEW(685, 'Bob the Builder');
 
 const bookEW23 = book.bind(euroWings, 23);
 //As shown above we can also set the parameter. Above we have set the first parameter of the function.So we can call it as below.This is how we can create a function for flightNum = 23
+
+//There is a common pattern called partial application which we used above. What partial application means is that arguments of the original functions are already applied or already set.
 bookEW23('Jack dorsy');
+
+//Using the bind method with Event listener
+
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes); //NaN if we simply called lufthansa.buyPlane because in eventhandler function this always points to the element on which eventhandler is attached to but we can use bind method to set the this keyword to lufthansa as:- lufthansa.buyPlane.bind(lufthansa).
+};
+//Important.
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+//Partial application
+
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.2, 200));
+
+const addGST = addTax.bind(null, 0.18);
+// addGST = (value) => value + value * rate; //By using the above bind method and partial application out addGST function will look like.
+console.log(addGST(1000)); //118
+
+const GST = function (rate) {
+  return function (value) {
+    return value + value * rate;
+  };
+};
+const totalValue = GST(0.2);
+
+console.log(GST(0.3)(500));
+console.log(totalValue(23));
