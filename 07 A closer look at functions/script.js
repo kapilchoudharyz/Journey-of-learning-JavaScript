@@ -102,9 +102,10 @@ const greetNew = (message) => (name) => console.log(`${message} ${name}`);
 greetNew('good morning')('Kayan');
 
 */
+
 /*
 
-*/
+
 //The call and Apply methods.
 
 //Setting the this keyword manually
@@ -159,7 +160,9 @@ let flightData = [199, 'Suman'];
 book.apply(lufthansa, flightData);
 //We don't use apply in modern js because we can use call method and use spread method if we have data inside an array.
 book.call(swiss, ...flightData);
+*/
 
+/*
 //Bind Method
 
 book.call(euroWings, 25, 'Jai Singh');
@@ -215,3 +218,124 @@ const totalValue = GST(0.2);
 
 console.log(GST(0.3)(500));
 console.log(totalValue(23));
+*/
+
+/*
+//Immediately invoked function expression (IIFE)
+
+const runOnce = function () {
+  console.log(
+    'This is regular function which can be later called in the code.'
+  );
+};
+runOnce();
+
+//IIFE : The function which we want to execute just once and never again. We can create such functions as below.
+
+(function () {
+  //IIFE
+  const isPrivate = 55;
+  console.log('This will never run again: Regular function IIFE');
+})();
+
+(() => console.log('This will never run again- Arrow function IIFE'))(); //IIFE
+
+//IIFE was used for data privacy or to hide data inside a variable but after es6 IIFE are not that useful because now we can create a block as below if we want to hide some data.
+
+{
+  const isprivate = 23;
+  var notPrivate = 46;
+}
+console.log(notPrivate); //46 bc variable created inside block scope with var keyword can be accesed in global scope.
+// console.log(isprivate); //Error bc isprivate is inside the block scope not on global scope so can't be accessed.
+*/
+
+/*
+
+*/
+
+/*
+//Closures: We don't create closures manually like an array or object closures automatically happens in certain si`tuations which we have to recognise.
+
+const secureBooking = function () {
+  let passangerCount = 0; //This variable can not be accesed from outside.
+  return function () {
+    passangerCount++;
+    console.log(`${passangerCount} passanger`);
+  };
+};
+const booker = secureBooking(); // secureBooking() will return the another function which will be stored in this booker variable.
+
+//Note: A function has access to all the variable environment of the execution context in which it was created even after the execution context is gone from the call stack.
+
+//The closure is basically the variable environment of secureBooking booking which is attached to the booker function exactly as it was at the time and place that the secureBooking function was created.
+
+//So due to closure the booker function can access passangerCount variable from the secureBooking function even though the execution context of secureBooking function is gone from the call stack.
+
+//Closure has priority over scope chain. Even if the passangerCount variable existed in the global scope the engine will first look into closure.
+
+//Diffrent analogy or definition of closure.
+
+//The closure is the closed-over variable environment of the execution context in which a function was created, even after that execution context is gone.
+
+//A closure gives a function acces to all the variables of its parent function, even after that parent function has returned. The function keeps a refrence to its outer scope, which preserve the scope chain through time.
+
+//A closure makes sure that a function does not loose connection to variable that existed at the function's birth place.
+
+booker(); //1 passanger
+booker(); //2 passanger
+booker(); //3 passanger
+booker(); //4 passanger
+console.dir(booker); //We can take a look at closure but we can not access closure anyhow.
+*/
+
+//Some more Closures example
+
+//We dont need to a return from another function to create a closure.
+
+//Example 1
+
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 14;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+console.dir(f);
+g();
+//Even if the g is gone from execution context but f still have acces to the variables defined in g function. so the f function really does close over any variables of the execution context in which it was defined even if the f was not defined in the g's variable environment.
+f();
+//Re-Assigned f function.
+
+//Now closure is changed and closure conatin variable b = 14 from h()
+h();
+f(); // 28
+console.dir(f);
+
+// Example 2
+
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passanger.`);
+    console.log(`There are 3 groups each with ${perGroup} passangers.`);
+  }, wait * 1000); //First argument is a function which will run after certain time(milliseconds) and second argument is time after which the function will run. setTimeout is a callback function.
+
+  //So this function inside setTimeOut function is executed after 5 secods completely independent from the boardPassangers function but still it was able to use all the variables(n and perGroup) that were in the environment in which it was created.So this is a sign of a closure being created.
+
+  //So the only way in which this callback function here can have access to the variables that are defined in the board passengers function that has long finished execution is if it created a closure.
+  console.log(`Will start boarding in ${wait} seconds.`);
+};
+
+const perGroup = 1000;
+//the callback function will not use above variable because we know that closure has priority over scope chain.
+boardPassengers(185, 5);
