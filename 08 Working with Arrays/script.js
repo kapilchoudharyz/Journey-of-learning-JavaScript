@@ -82,29 +82,30 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce(function (acc, cur) {
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce(function (acc, cur) {
     return acc + cur;
   }, 0);
-  labelBalance.textContent = `${balance} EUR`;
-};
-calcDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+  labelBalance.textContent = `${acc.balance} EUR`;
+};
+calcDisplayBalance(account1);
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}\u20AC  `;
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov, i, arr) => {
       // console.log(arr);//For debugging.
       return acc + mov;
     }, 0);
   labelSumOut.textContent = `${Math.abs(out)}\u20AC`;
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
       // console.log(arr);//For debugging
       return int >= 1;
@@ -113,7 +114,7 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `${interest}\u20AC`;
 };
 
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -124,11 +125,97 @@ const createUsernames = function (accs) {
       .join('');
   });
 };
-
-console.log(accounts);
 createUsernames(accounts);
+//Update UI
+const updateUi = function (acc) {
+  //Display movements
+  displayMovements(acc.movements);
+  //Display balance
+  calcDisplayBalance(acc);
+  //Display summary
+  calcDisplaySummary(acc);
+  // console.log(currentAccount.pin);
+};
+//Event Handlers
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //Display UI and welcome message
+    labelWelcome.textContent = `Welcome back ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = '100';
+    //Clear input fields
+
+    inputLoginPin.value = inputLoginUsername.value = '';
+    inputLoginPin.blur();
+    // The HTMLElement.blur() method removes keyboard focus from the current element.
+    updateUi(currentAccount);
+  }
+});
 
 // console.log(calcDisplayBalance(movements));
+
+//Implementing Transfers
+
+//Tasks
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  console.log(amount);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  // calcDisplayBalance(receiverAcc);
+  inputTransferAmount.value = inputTransferTo.value = '';
+  console.log(receiverAcc);
+  if (
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    receiverAcc &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    //Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUi(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && movements.some(mov => mov >= amount * 0.1)) {
+    console.log('Working');
+  }
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('CLosed');
+  console.log(currentAccount);
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+    console.log('Working');
+    accounts.splice(index, 1);
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
 
 //Theory
 
@@ -463,7 +550,7 @@ console.log(age1, age2);
 //2. The filter method returns a new array while the find method returns the element itself not the array.
 
 //We can use the find the first positive/negative value inside an array using the find method.
-
+/*
 console.log(movements);
 
 let firstWithdrawal = movements.find(function (mov) {
@@ -477,3 +564,38 @@ console.log(accounts);
 
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 console.log(account);
+
+let accountFor;
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') {
+    accountFor = acc;
+    break;
+  }
+}
+console.log(accountFor);
+console.log(movements);
+*/
+/*
+ 
+// The findIndex Method
+
+//The findindex of method is similar to indexof method but the major diffrence between them is that in findindexof method the argument we pass in is a function but in indexof method we pass in the value as an argument not the function. Below is the example in which we can see the diffrence between the two methods.
+//Note: Both method returns the index of first value which satisfies the argument.
+//Note:Both returns -1 if the index of passed in argument does not exist.
+
+let myarray = [25, 28, 6, 3];
+let indexof1 = myarray.indexOf(25); //Returns 0
+let indexof2 = myarray.indexOf(2); //Returns -1
+let findIndexOf1 = myarray.findIndex(arr => arr % 5 === 0); //Returns 0
+let findIndexOf2 = myarray.findIndex(arr => arr % 3 === 0); //Returns 2
+let findIndexOf3 = myarray.findIndex(arr => arr % 3 === 4); //Returns -1
+console.log(indexof1, indexof2, findIndexOf1, findIndexOf2, findIndexOf3);
+*/
+//Some and every Method
+
+//Some method is same as includes method but the diffrence is that some method takes a function as argument but the includes method takes value as parameter
+//Some method retruns true if value specified in function exist in array otherwise it returns false.
+console.log(movements);
+console.log(movements.includes(-130));
+const someAmount = movements.some(amount => amount > 10000);
+console.log(`${someAmount} someamount`);
