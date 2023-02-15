@@ -5,6 +5,7 @@
 // BANKIST APP
 
 // Data
+let t0 = performance.now();
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -192,9 +193,14 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
-  if (amount > 0 && movements.some(mov => mov >= amount * 0.1)) {
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // adding movements
+    currentAccount.movements.push(amount);
     console.log('Working');
+    //Updating UI
+    updateUi(currentAccount);
   }
+  inputLoanAmount.value = '';
 });
 
 btnClose.addEventListener('click', function (e) {
@@ -216,6 +222,8 @@ btnClose.addEventListener('click', function (e) {
   }
   inputCloseUsername.value = inputClosePin.value = '';
 });
+// let t1 = performance.now();
+// console.log(`${t1 - t0} milliseconds`);
 
 //Theory
 
@@ -591,7 +599,11 @@ let findIndexOf2 = myarray.findIndex(arr => arr % 3 === 0); //Returns 2
 let findIndexOf3 = myarray.findIndex(arr => arr % 3 === 4); //Returns -1
 console.log(indexof1, indexof2, findIndexOf1, findIndexOf2, findIndexOf3);
 */
+
+/*
 //Some and every Method
+
+//Some method
 
 //Some method is same as includes method but the diffrence is that some method takes a function as argument but the includes method takes value as parameter
 //Some method retruns true if value specified in function exist in array otherwise it returns false.
@@ -599,3 +611,22 @@ console.log(movements);
 console.log(movements.includes(-130));
 const someAmount = movements.some(amount => amount > 10000);
 console.log(`${someAmount} someamount`);
+
+//Every Method
+//Every method also receives a callback function just like some method but it returns true only ifevery element of the array passes the condition in callback function only then the Every method returns true
+
+console.log(movements.every(mov => mov > 0)); //False
+console.log(account4.movements.every(mov => mov > 0)); //True
+
+//Seperate callback
+let deposit = mov => mov < 0;
+console.log(movements.every(deposit)); //false
+console.log(movements.some(deposit)); //True
+console.log(movements.filter(deposit)); //[ -400, -650, -130 ]
+
+*/
+
+//Flat and FlatMap method
+let arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+let oneBigArray = arr.flat();
+console.log(oneBigArray); //[ 1, 2, 3, 4, 5, 6, 7, 8 ]
