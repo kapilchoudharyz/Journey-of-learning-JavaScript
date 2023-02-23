@@ -64,9 +64,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements; //We used slice to create the copy of movements array because we don't want to change the original array.
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
@@ -81,7 +84,7 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce(function (acc, cur) {
@@ -90,23 +93,23 @@ const calcDisplayBalance = function (acc) {
 
   labelBalance.textContent = `${acc.balance} EUR`;
 };
-calcDisplayBalance(account1);
+// calcDisplayBalance(account1);
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
-    .filter(mov => mov > 0)
+    .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}\u20AC  `;
   const out = acc.movements
-    .filter(mov => mov < 0)
+    .filter((mov) => mov < 0)
     .reduce((acc, mov, i, arr) => {
       // console.log(arr);//For debugging.
       return acc + mov;
     }, 0);
   labelSumOut.textContent = `${Math.abs(out)}\u20AC`;
   const interest = acc.movements
-    .filter(mov => mov > 0)
-    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter((mov) => mov > 0)
+    .map((deposit) => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
       // console.log(arr);//For debugging
       return int >= 1;
@@ -122,7 +125,7 @@ const createUsernames = function (accs) {
     acc.username = acc.owner
       .toLowerCase()
       .split(' ')
-      .map(name => name[0])
+      .map((name) => name[0])
       .join('');
   });
 };
@@ -142,7 +145,7 @@ let currentAccount;
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
+    (acc) => acc.username === inputLoginUsername.value
   );
 
   console.log(currentAccount);
@@ -159,6 +162,7 @@ btnLogin.addEventListener('click', function (e) {
     // The HTMLElement.blur() method removes keyboard focus from the current element.
     updateUi(currentAccount);
   }
+  sorted = false;
 });
 
 // console.log(calcDisplayBalance(movements));
@@ -172,7 +176,7 @@ btnTransfer.addEventListener('click', function (e) {
   const amount = Number(inputTransferAmount.value);
   console.log(amount);
   const receiverAcc = accounts.find(
-    acc => acc.username === inputTransferTo.value
+    (acc) => acc.username === inputTransferTo.value
   );
   // calcDisplayBalance(receiverAcc);
   inputTransferAmount.value = inputTransferTo.value = '';
@@ -193,7 +197,10 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
-  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
     // adding movements
     currentAccount.movements.push(amount);
     console.log('Working');
@@ -212,7 +219,7 @@ btnClose.addEventListener('click', function (e) {
     Number(inputClosePin.value) === currentAccount.pin
   ) {
     const index = accounts.findIndex(
-      acc => acc.username === currentAccount.username
+      (acc) => acc.username === currentAccount.username
     );
     console.log(index);
     console.log('Working');
@@ -222,6 +229,13 @@ btnClose.addEventListener('click', function (e) {
   }
   inputCloseUsername.value = inputClosePin.value = '';
 });
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
 // let t1 = performance.now();
 // console.log(`${t1 - t0} milliseconds`);
 
@@ -625,8 +639,124 @@ console.log(movements.some(deposit)); //True
 console.log(movements.filter(deposit)); //[ -400, -650, -130 ]
 
 */
+/*
+
 
 //Flat and FlatMap method
+
+//Flat method-The flat method removes the nested arrays and flats the array.The flat method only goes one level deeper.
 let arr = [[1, 2, 3], [4, 5, 6], 7, 8];
 let oneBigArray = arr.flat();
 console.log(oneBigArray); //[ 1, 2, 3, 4, 5, 6, 7, 8 ]
+
+let arrDeep = [[[1, 2]], 3, 0, [4, [5, 6, [7, 8]]]];
+// console.log(arrDeep.flat()); // [ (2) […], 3, 0, 4, (3) […] ]
+
+//We can go deep inside an array with providing an argument to flat method.So in argument we provide how many level deep we want to go inside an array.
+
+// console.log(arrDeep.flat(1)); //[ (2) […], 3, 0, 4, (3) […] ]
+// console.log(arrDeep.flat(2)); //[ 1, 2, 3, 0, 4, 5, 6, (2) […] ]
+// console.log(arrDeep.flat(3)); // [ 1, 2, 3, 0, 4, 5, 6, 7, 8 ]
+
+//Using chaining
+
+let overallBalance = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .reduce((acc, amount) => amount + acc, 0);
+console.log(overallBalance);
+
+//flatMap method - This method combines both flat and Map method.So flatMap method first map's the array and then flats it.
+
+// Note:The flatMap method goes only one level deep in the array.So for more deeply nested arrays method we will use flat method.
+
+let overallBalance1 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, amount) => amount + acc, 0);
+console.log(overallBalance1);
+*/
+/*
+//Sorting Arrays
+
+//Strings
+const owners = ['kapil', 'nishu', 'annu', 'Zack', 'adam', 'Andrew'];
+console.log(owners.sort()); //Returns the array sorted or alphabetically from a to z but string starting from capital letter are sorted first and the small letter strings are sorted. This happens because the strings are shorted in ascending order of the character code. So the character code of capital letters is less than the character code of small letters so capital letters are printed first.
+// * It mutates the original array so original array is also changed
+
+//Numbers
+
+//! console.log(movements.sort()); It does not work.
+
+//* For sorting numbers we pass in a comparative function inside sort method.
+//* Comparative function is called with two arguments.First argument is current value and the second argument is the next value (imagine the sort method is looping over the array).
+//* So if comparative function returns negative value than 'a' sorted before 'b'.
+//* If comparative function returns positive value than b is sorted before 'a'.
+//* If comparative function returns '0' then 'a' and 'b' remains in the same order.
+//! return < 0 then A,B (Doesn't switch the order)
+//! return > 0 then B,A (Switch the order)
+//In ascending Order
+
+// movements.sort((a, b) => {
+//   if (a < b) {
+//     return -1; //a comes before b
+//   } else if (a > b) {
+//     return 1; //b comes before a
+//   } else {
+//     return 0; //Order remains the same.
+//   }
+// });
+
+//! Improved method
+
+movements.sort((a, b) => a - b);
+console.log(movements);
+
+//Descending order
+
+// movements.sort((a, b) => {
+//   if (a < b) return 1; //b comes before a
+//   else if (a > b) return -1; // a comes before b
+//   else return 0;
+// });
+
+movements.sort((a, b) => b - a);
+console.log(movements);
+*/
+
+//! more ways of creating and filling arrays.
+
+let arr = new Array(1, 2, 3, 4, 5, 6, 7);
+
+console.log(arr);
+
+let newArr = new Array(7);
+//*Returns an empty array of length 7 wheneve we pass in a single argument.
+//*We can not use any method on this empty array of length 7 except the fill method.
+//*fill method fills the empty array with the argument we pass in fill method to the defined length.
+//! Fill method mutates or changes the existing array.
+//* We can also pass in a begin parameter.(From what index should it start filling the array)
+//*We can pass in an end parameter too so that it will fill the array upto specified end parameter index.
+// newArr.fill(1);
+// newArr.fill(1, 3); //It starts filling array from index 3(index 3 included)
+newArr.fill(1, 3, 5); //It starts filling array from index 3(index 3 included) and stop filling at index 5(index 5 exclude or not filledd at index 5)
+console.log(newArr);
+
+//* we can use fill method to mutate existin array too.
+
+let x = [1, 2, 3, 4, 5, 6, 7, 8];
+x.fill(89, 2, 7); //fill the array with 89 from index 2 (included) to index 7(excluded).
+console.log(x);
+
+//! Array.from method
+
+//*from method is used on Array construcotor function.
+//*In from method we pass in two argument first one is an object of length property and value pair and second argument is a callback function same as map
+let y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+let z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+
+//Create an array of 100 dice rolls
+// let dice = Array.from({ length: 100 }, () => Math.floor(Math.random() * 6));
+// console.log(dice);

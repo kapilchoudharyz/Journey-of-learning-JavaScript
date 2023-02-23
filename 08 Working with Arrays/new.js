@@ -30,3 +30,25 @@ let cont = arr.forEach(function (ar, i, arr) {
 }); //a for loop returns undefined.
 console.log(cont);
 */
+
+//* Coding challenge
+
+//sort an array which is mix of number and string
+
+let arrstr = [25, 8, 56, 'kapil', 'nishu'];
+
+console.log(typeof 8);
+const sorted = (arr) => {
+  let str = [];
+  let num = [];
+  arr.forEach((el) => {
+    typeof el === 'number' ? num.push(el) : str.push(el);
+  });
+  console.log(str);
+  console.log(num);
+  str.sort();
+  num.sort((a, b) => a - b);
+
+  return num.concat(str);
+};
+console.log(sorted(arrstr));
