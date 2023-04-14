@@ -722,7 +722,7 @@ console.log(movements);
 movements.sort((a, b) => b - a);
 console.log(movements);
 */
-
+/*
 //! more ways of creating and filling arrays.
 
 let arr = new Array(1, 2, 3, 4, 5, 6, 7);
@@ -760,3 +760,80 @@ console.log(z);
 //Create an array of 100 dice rolls
 // let dice = Array.from({ length: 100 }, () => Math.floor(Math.random() * 6));
 // console.log(dice);
+
+labelBalance.addEventListener('click', function () {
+  //*We can not use array method on node list so we have to change it to array using Array.from() method.
+  // console.log(
+  //   document
+  //     .querySelectorAll('.movements__value')
+  //     .map((el) => el.textContent.replace('€', ''))
+  // );//!Error
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    (el) => el.textContent.replace('€', '')
+  );
+  console.log(movementsUI);
+  //* We can also create an array of node list using spread operator
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+  console.log(movementsUI2);
+});
+*/
+
+//! Array method practise
+
+//1
+const bankDepositSome = function (accounts) {
+  console.log(
+    accounts
+      .flatMap((acc) => acc.movements)
+      .filter((amount) => amount > 0)
+      .reduce((accumulater, amount) => accumulater + amount, 0)
+  );
+};
+bankDepositSome(accounts);
+
+//2
+
+// const numDeposit1000 = accounts
+//   .flatMap((acc) => acc.movements)
+//   .filter((mov) => mov >= 1000)
+//   .length
+
+//Another method
+
+const numDeposit1000 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, amount) => (amount >= 1000 ? ++acc : acc), 0);
+console.log(numDeposit1000);
+
+//3
+const { deposits, withdrawal } = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (acc, cur) => {
+      // cur >= 0 ? (acc.deposits += cur) : (acc.withdrawal += cur);
+      acc[cur > 0 ? 'deposits' : 'withdrawal'] += cur;
+      return acc; //!Will have to return accumulater when used curly bracket inside an arrow function
+    },
+    { deposits: 0, withdrawal: 0 }
+  );
+console.log(deposits, withdrawal);
+
+//4
+
+//this is a nice title --> This Is a Nice Title
+
+const convertTitleCase = function (title) {
+  const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
+  const exception = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map((word) => (exception.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a Long title but not too long'));
+console.log(convertTitleCase('and here is another title with an long example'));
