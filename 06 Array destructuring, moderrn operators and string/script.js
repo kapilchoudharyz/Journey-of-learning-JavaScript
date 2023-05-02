@@ -852,3 +852,16 @@ console.log(p, q, r, s);*/
 // let b = 999;
 
 // let c = 8
+
+let arr = [1, 5, 9, 10, 15];
+let [ant, , cat] = arr;
+console.log(ant, cat);
+[ant, cat] = [cat, ant];
+console.log(ant, cat);
+
+let newArr = [1, 8, 9, [5, 46]];
+let [u, , v, [i, j]] = newArr;
+console.log(u, v, i, j);
+
+const [a, b, c = 0, ...D] = [5, 6, 9, 10, 15, 18];
+console.log(a, b, c, D);

@@ -1,5 +1,14 @@
 'use strict';
 
+const greet = (greetmsg) => (greetwho) =>
+  console.log(`${greetmsg} ${greetwho}`);
+greet('Hello')('kapil');
+
+// let fun = function () {
+//   console.log(arguments);
+//   console.log('workin');
+// };
+// fun(2, 5, 6);
 /*
 const bookings = [];
 const createBooking = function (

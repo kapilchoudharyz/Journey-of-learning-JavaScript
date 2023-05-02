@@ -405,3 +405,4 @@ while (dice !== 6) {
   }
 }
 // In above loop  what happened was that first we created a variable dice outside of the loop and then we
+console.log('Kapil')

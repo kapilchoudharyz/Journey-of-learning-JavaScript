@@ -137,7 +137,7 @@ const kapil = {
 };
 kapil.greet();
 kapil.calcAge();
-// console.log(this.firstName); //We get 'undefined', when we try to acces a property which does not exist we get undefined insteadd of error.
+// console.log(this.firstName); //We get 'undefined', when we try to access a property which does not exist we get undefined insteadd of error.
 
 //Arguments keyword
 
@@ -177,9 +177,9 @@ const friend = me
 friend.age = 22
 console.log('Friend' ,friend);
 console.log('Me' ,me);
-//All our objects or refrence types(object literal, function, array, many more) are stored in the memory heap on the other hand premitive or primitive types are stored in the call stack.
+//All our objects or refrence types(object literal, function, array, many more) are stored in the memory heap on the other hand primitive or primitive types are stored in the call stack.
 */
-//Priitive types
+//Primitive types
 
 let lastName = 'kumar'
 let oldLastName = lastName
@@ -214,3 +214,104 @@ nishuCopy.family.push('kannu')
 console.log('nishu2', nishu2);//Here we see that 'kannu' is pushed to the family string in object 'nishu2' and 'nishuCopy'
 console.log('nishuCopy', nishuCopy);
 
+console.log('Hello')
+
+console.log('Global this', this)
+
+let afun = function(){
+  console.log('afun This:', this)
+  return 23
+}
+afun()
+
+let arrowfun = () => console.log('Arrow this:', this)
+arrowfun()
+
+// document.querySelector('.heading').addEventListener('click', function(){
+//   console.log('DOM this:', this)
+// })
+
+let ob = {
+  firstName: 'Kapil',
+  lastName: 'Choudhary',
+  obFun: function(){
+    console.log('object this:', this)
+  }
+}
+let anotherOb = {
+  firstName: 'Nishu',
+}
+ob.obFun()
+anotherOb.obfun = ob.obFun
+anotherOb.obfun() //This keyword always point to the object which is calling the function or calling the method.
+
+let age = function(){
+  console.log(this)
+}
+age()
+const me = {
+  name: 'Kapil',
+  age: 22,
+}
+const friend = me
+console.log('Me', me)
+friend.age = 32
+// console.log('Friend', friend)
+
+
+
+let lastNameNew = 'Choudhary'
+let oldLastNameNew = lastNameNew
+lastNameNew = 'Kumar'
+// console.log(lastNameNew, oldLastNameNew)
+
+let person = {
+  firstName: 'Nishant',
+  lastName: 'Choudhary',
+  age: 28,
+  arr: [1,5,7]
+}
+const newPerson = person
+// newPerson.lastName = 'Kumar'
+// console.log('Old person', person)
+// console.log('New person', newPerson)
+
+// copying an object
+
+const personCopy = Object.assign({}, newPerson) //Only works on the first level do not create a deep clone
+
+personCopy.lastName = 'Kumar'
+personCopy.arr.push(17)
+personCopy.arr.push(26)
+// console.log('person', person)
+// console.log('personCopy', personCopy)
+
+
+// let plusOne = function(digits) {
+//   // digits.push(newDigits.split(','))
+//
+//   let newDigits = Number(digits.join('')) + 1;
+//   console.log(newDigits)
+//   let str =  String(newDigits)
+//   console.log('str',str, typeof str)
+//   console.log(str.length)
+//   if(str.length > 1) {
+//     for (let i = 0; i < str.length; i++){
+//       str[i] = Number(str[i])
+//     }
+//     console.log(str.split(''))
+//   }
+//   else{
+//     console.log('Working')
+//     return [newDigits]
+//   }
+//
+// };
+// console.log('plus',plusOne([0,0]))
+//
+
+let plusOne = function(digits){
+  let num = BigInt(digits.join('')) + 1n
+  return num.toString().split('')
+}
+console.log(plusOne([1,5]))

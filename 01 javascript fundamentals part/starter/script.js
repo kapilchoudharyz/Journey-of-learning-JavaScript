@@ -343,4 +343,64 @@ switch (myAge) {
 //Important-Ternary operator is not an replacement of if/else statement.
 */
 
-//Javascript releases - ES5, ES6+, ESNEXT 
+//Javascript releases - ES5, ES6+, ESNEXT
+
+// let kapil = {
+//   firstName: "Kapil",
+//   lastName: "Kumar",
+//   fun(firstName) {
+//     console.log("This is Working");
+//   },
+//   arr: (arrowFunction) => console.log(arrowFunction),
+// };
+// kapil.fun(kapil["firstName"]);
+// console.log(kapil.lastName);
+// let x = (parameter) => console.log(parameter);
+// x("parameter");
+// kapil.arr("This is arrow function inside an object");
+
+// var mergeAlternately = function (word1, word2) {
+//   let output = "";
+//   if (word1.length > word2.length) {
+//     for (let i = 0; i < word1.length; i++) {
+//       if (word2[i]) {
+//         output += word1[i].concat(word2[i]);
+//       } else {
+//         output += word1[i];
+//       }
+//     }
+//   } else if (word2.length > word1.length) {
+//     for (let i = 0; i < word2.length; i++) {
+//       if (word1[i]) {
+//         output += word1[i].concat(word2[i]);
+//       } else {
+//         output += word2[i];
+//       }
+//     }
+//   } else {
+//     for (let i = 0; i < word1.length; i++) {
+//       output += word1[i].concat(word2[i]);
+//     }
+//   }
+//   return output;
+// };
+// console.log(mergeAlternately("abcde", "pqrs"));
+// console.log([1].length);
+
+// Array.prototype.last = function () {
+//   return Array[1];
+// };
+// console.log([1, 2, 3].last());
+
+// let arr = [1, "kapil", true];
+// // for (let i = 0; i < arr.length; i++) {
+// //   console.log(typeof arr[i]);
+// //   if (typeof arr[i] !== "string") break;
+// // }
+
+// let j = 0;
+// while (j < arr.length) {
+//   console.log(arr[j]);
+//   // j++;
+// }
+
