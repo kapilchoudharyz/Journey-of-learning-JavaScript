@@ -1,7 +1,6 @@
 {
-  "name": "$name$",
-  "version": "$version$",
+  "name": "09 Numbers, Dates, Intl and Timers",
+  "version": "1.0.0",
   "dependencies": {
-    $END$
   }
 }
