@@ -21,9 +21,9 @@ const account1 = {
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2023-05-02T17:01:17.194Z',
+    '2023-05-05T23:36:17.929Z',
+    '2023-05-09T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -43,7 +43,7 @@ const account2 = {
     '2020-02-05T16:33:06.386Z',
     '2020-04-10T14:43:26.374Z',
     '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2023-05-09T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -81,6 +81,38 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
+const formatMovementsDate = function(date, locale){
+  const calcDayPassed = (date1, date2) => Math.round(Math.abs((date2 - date1))/(1000*60*60*24));
+
+  const daysPassed = calcDayPassed(new Date(), date)
+  console.log(daysPassed);
+  if(daysPassed ===0){
+    return 'Today'
+
+  } if(daysPassed ===1){
+    return 'Yesterday'
+
+  }if(daysPassed <=7){
+    return `${daysPassed} days ago`
+
+  }else{
+  // const day = `${date.getDate()}`.padStart(2, 0)
+  // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  // const year = date.getFullYear();
+  //
+  //  return`${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(locale).format(date);
+
+  }
+}
+
+const formatCur = function(value, locale, currency){
+  return  new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+  }).format(value)
+}
+
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -89,11 +121,9 @@ const displayMovements = function (acc, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i])
+    let displayDate = formatMovementsDate(date, acc.locale)
 
-    const day = `${date.getDate()}`.padStart(2, 0)
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    let displayDate = `${day}/${month}/${year}`;
+    const formattedMov = formatCur(mov, acc.locale, acc.currency)
 
     const html = `
       <div class="movements__row">
@@ -101,7 +131,7 @@ const displayMovements = function (acc, sort = false) {
       i + 1
     } ${type}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${formattedMov}</div>
       </div>
     `;
 
@@ -111,19 +141,22 @@ const displayMovements = function (acc, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 10);
-  labelBalance.textContent = `${acc.balance}€`;
+
+  const formattedMov = formatCur(acc.balance, acc.locale, acc.currency)
+
+  labelBalance.textContent = formattedMov;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  labelSumIn.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
+  labelSumOut.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -133,7 +166,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumInterest.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
 const createUsernames = function (accs) {
@@ -166,7 +199,7 @@ currentAccount = account1
 updateUI(currentAccount)
 containerApp.style.opacity = '100';
 
-
+//Experimenting with API
 
 
 
@@ -177,7 +210,7 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
+
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
@@ -187,13 +220,25 @@ btnLogin.addEventListener('click', function (e) {
     containerApp.style.opacity = 100;
 
     //Create current date
+    // const now = new Date()
+    // const day = `${now.getDate()}`.padStart(2, 0)
+    // const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    // const year = now.getFullYear();
+    // const hour = now.getHours();
+    // const minutes = now.getMinutes();
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+
     const now = new Date()
-    const day = `${now.getDate()}`.padStart(2, 0)
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = now.getHours();
-    const minutes = now.getMinutes();
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',//month: numeric--> month number, month: 'long' for month name, month : '2-digit' for month number in 2 digit.
+      year: 'numeric', //year: 'numeric' for whole year, year: '2-digit' for last two digit of year
+      weekday: 'short'//Weekday: 'long' for whole week day, Weekday: 'Short" for weekday in short and Weekday: 'narrow' for first letter of weekday
+    }
+    // const locale = navigator.language
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale, options).format(now) //Here we are using internationalizing API.
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
@@ -298,7 +343,7 @@ console.log(+'23', typeof +'23')
 //Parsing -->Initial values in the string should be numbers.
 //ParseInt method
 // Using parseint we can get rid of unnecessary symbols. In Parseint method we pass in second argument(Radix) which is the base of numeral system which we are using.
-//ParsseInt returns only the integer part of the string.
+//ParseInt returns only the integer part of the string.
 console.log(Number.parseInt('28px', 10)) //Returns 28(Number)
 console.log(Number.parseInt('e34', 10)) //Returns NaN because we know that it the string should start with a number.
 
@@ -504,11 +549,34 @@ console.log(future.getSeconds());//Returns the Second -->0
 console.log(future.toISOString()); //2001-01-09T23:05:00.000Z
 console.log(future.getTime());//Returns the milliseconds passed since january 1970 to specified date, and it is called the timestamp.
 
-console.log(Date.now());//Returns the milliseconds passed since the begining of the unix based time.
+console.log(Date.now());//Returns the milliseconds passed since the beginning of the unix based time.
 
 //Note:--> There is set method also for all the above methods.
 future.setFullYear(2021)//Set the year in future to 2021
 console.log(future);
 
 */
+/*
+const future = new Date(2001, 0,10,4,35)
+console.log(Number(future)); //Returns milliseconds passed since the beginning of the unix based time.
+console.log(+future); //Returns milliseconds passed since the beginning of the unix based time.
 
+const dayPassed = (date1, date2) => Math.abs((date2 - date1))/(1000*60*60*24)
+let day1 = dayPassed(new Date(2023, 4 ,9, 18,12), new Date(2001, 0, 10))
+console.log(day1);//returns 8154.75 days
+*/
+
+// Internationalizing Numbers
+const num = 984651465.5
+const options = {
+  // style: 'unit', //style: unit for units, style: percent for percent and then unit is completely ignored, currency for different currencies
+  // unit: 'mile-per-hour'
+  style: 'currency',
+  currency: 'EUR',
+  // useGrouping: false,//for printing number without coma or other annotation.
+
+}
+console.log('US    ',new Intl.NumberFormat('en-US',options).format(num));
+console.log('IN    ',new Intl.NumberFormat('hi-IN', options).format(num));
+console.log('syria    ',new Intl.NumberFormat('ar-SY', options).format(num));
+console.log('Browser    ',new Intl.NumberFormat(navigator.language, options).format(num));
