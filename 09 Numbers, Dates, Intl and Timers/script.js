@@ -279,13 +279,14 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(+inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    // Add movement
-    currentAccount.movements.push(amount);
-    //Add transfer date
-    currentAccount.movementsDates.push(new Date().toISOString());
+    setTimeout(()=>{// Add movement
+      currentAccount.movements.push(amount);
+      //Add transfer date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 5000)
   }
   inputLoanAmount.value = '';
 });
@@ -580,3 +581,33 @@ console.log('US    ',new Intl.NumberFormat('en-US',options).format(num));
 console.log('IN    ',new Intl.NumberFormat('hi-IN', options).format(num));
 console.log('syria    ',new Intl.NumberFormat('ar-SY', options).format(num));
 console.log('Browser    ',new Intl.NumberFormat(navigator.language, options).format(num));
+
+//SetTimeout and setInterval
+
+//SetTimeout
+//setTimeout function receives two arguments first is the callback function and second argument is the time after which the callback function will be called.
+//We can pass in arguments in the callback function after the timeout as below.
+
+const ingrediants = ['Onion', 'Tomato']
+const orderPizza = setTimeout((ing1, ing2)=> console.log(`Here is your Pizza with ${ing1} and ${ing2}`), 5000, ...ingrediants)
+console.log('Waiting...');
+
+//Note:--> We can cancel or clear the setTimeout until the time(Timeout specified) is not passed as below.
+if (ingrediants.includes('Onion')){
+  clearTimeout(orderPizza)
+}
+
+//setInterval
+setInterval(function(){
+  const now = new Date()
+  console.log(now);
+}, 3000)
+
+//Digital Clock
+ setInterval(function(){
+  const  now = new Date()
+  const hour = now.getHours()
+  const minute = now.getMinutes()
+  const second = now.getSeconds()
+  console.log(`Time: ${hour}:${minute}:${second}`);
+}, 1000)
