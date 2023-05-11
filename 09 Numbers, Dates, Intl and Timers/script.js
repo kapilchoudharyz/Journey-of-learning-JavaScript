@@ -191,13 +191,48 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+//Logout Timer
+let currentAccount
+
+
+const startLogOutTimer = function() {
+  let time = 120
+  const tick = function() {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0)
+    const sec = String(time % 60).padStart(2, '0')
+    //Each second print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`
+    //When timer reach zero second logout the user.
+    if (time === 0) {
+      clearInterval(timer)
+      currentAccount = null
+      labelWelcome.textContent = 'Log in to get started'
+      containerApp.style.opacity = 0
+    }
+    time--
+
+  }
+
+  //setting the time to 30sec
+
+  tick()
+  //Call the timer every second
+
+  const timer = setInterval(tick, 1000)
+  return timer
+}
+
+
+
+let timer ;
+
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
-//Fake Login
-currentAccount = account1
-updateUI(currentAccount)
-containerApp.style.opacity = '100';
+// //Fake Login
+// currentAccount = account1
+// updateUI(currentAccount)
+// containerApp.style.opacity = '100';
 
 //Experimenting with API
 
@@ -243,6 +278,10 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    if (timer) {
+      clearInterval(timer)
+    }
+    timer = startLogOutTimer()
     // Update UI
     updateUI(currentAccount);
   }
@@ -270,6 +309,8 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAcc.movementsDates.push(new Date().toISOString());
     // Update UI
     updateUI(currentAccount);
+    clearInterval(timer)
+    timer = startLogOutTimer()
   }
 });
 
@@ -286,6 +327,8 @@ btnLoan.addEventListener('click', function (e) {
 
       // Update UI
       updateUI(currentAccount);
+      clearInterval(timer)
+      timer = startLogOutTimer()
     }, 5000)
   }
   inputLoanAmount.value = '';
@@ -596,14 +639,15 @@ console.log('Waiting...');
 if (ingrediants.includes('Onion')){
   clearTimeout(orderPizza)
 }
-
+/*
 //setInterval
 setInterval(function(){
   const now = new Date()
   console.log(now);
 }, 3000)
-
-//Digital Clock
+*/
+/*
+Digital Clock
  setInterval(function(){
   const  now = new Date()
   const hour = now.getHours()
@@ -611,3 +655,4 @@ setInterval(function(){
   const second = now.getSeconds()
   console.log(`Time: ${hour}:${minute}:${second}`);
 }, 1000)
+*/
