@@ -1,5 +1,6 @@
 "use strict";
-
+const btnScrollTo = document.querySelector('.btn--scroll-to')
+const section1 = document.querySelector('#section--1')
 ///////////////////////////////////////
 // Modal window
 
@@ -29,7 +30,39 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+//Button scrolling.
+btnScrollTo.addEventListener('click', function (e){
+  let s1Cords = section1.getBoundingClientRect();
+  console.log(e.target.getBoundingClientRect())//Returns the position and size of element.
+  console.log(window.pageXOffset, window.pageYOffset);
+  console.log('s1Cords' ,s1Cords)
+  section1.scrollIntoView({behavior: "smooth"})
+})
 ////////////////////////////////////////////////////
+//page navigation
+// document.querySelectorAll('.nav__link').forEach(function(el){
+//   el.addEventListener('click', function(e){
+//     e.preventDefault();
+//     const id = this.getAttribute('href')
+//     console.log(id)
+//     document.querySelector(id).scrollIntoView({behavior: 'smooth'})
+//   });
+// });
+//Above method is not very efficient because the callback function is copied for each li so we use event delegation method as below.
+////////////////////
+// In event delegation we need two steps.
+//1. We add the event listener to a common parent of the elements we are interested in.
+//2 Determine what element originated the event.
+document.querySelector('.nav__links').addEventListener('click', function (e){
+  e.preventDefault()
+  //Matching strategy
+  if (e.target.classList.contains('nav__link')){
+    let el = e.target.getAttribute('href')
+    document.querySelector(el).scrollIntoView({behavior: 'smooth'})
+  }
+});
+
+
 //////////////////////////////////////
 /*
 //How the DOM really works
@@ -186,10 +219,97 @@ console.log(logo.classList.contains('j'))//True if the class exist otherwise fal
 // logo.className = 'Kapil'
 */
 
-const btnScrollTo = document.querySelector('.btn--scroll-to')
-const section1 = document.querySelector('#section--1')
 
-btnScrollTo.addEventListener('click', function (e){
-  let scroll1 = section1.getBoundingClientRect()
-  console.log(scroll1.top + window.scrollY, scroll1)
+/*
+//getBoundingClientRect returns the size of an element and its position w.r.t. viewport(Returns these eight properties:--> eft, top, right, bottom, x, y, width, height.
+//pageXOffset/scrollX returns the position of element Horizontally from the initial position.
+//pageYOffset/scrollY returns the position of element Vertically from the initial position.
+//clientHeight and clientWidth returns the height and width of the viewPort when used on the document element.
+console.log(document.documentElement.clientHeight, document.documentElement.clientWidth)//Returns the heigth and width of the viewport.
+// btnScrollTo.addEventListener('click', function (e){
+//   let s1Cords = section1.getBoundingClientRect();
+//   console.log(e.target.getBoundingClientRect())//Returns the position and size of element.
+//   console.log(window.pageXOffset, window.pageYOffset);
+//   console.log('s1Cords' ,s1Cords)
+//   //Scrolling
+//   // window.scrollTo(s1Cords.left, s1Cords.top) // scrollTo takes value from the top of the page or it is absolute.
+//   //Note:->The problem here is that the getBoundingClientRect() method returns coordinates of an element relative to the viewport, so to the currently visible area on your screen, but the scrollTo() method always starts from the top of the document.
+//   //
+//   // There is no problem as long as our viewport is the same as the top of the page. The problem is when we scroll a little bit, and our viewport is moved, but the top of the page stays the same.
+//   //
+//   // So, let's say the distance between the first section, and the top of the page is 500px. To scroll to this section, we would need to use window.scrollTo(0, 500);.
+//   //
+//   // But, we need to get that value dynamically, using the getBoundingClientRect() method because we never know the exact distance (depending on the screen size, styles, etc.). The problem is that getBoundingClientRect() returns a position relative to the viewport. So, let's say I scroll by 200px from the top of the page, and the distance between the top of the viewport and the first section will be only 300px. However, we need to scroll by 500px because window.scrollTo() is absolute - starts from the top of the document.
+//   //
+//   // That's the problem. To solve it, we add the distance between the top of the document and the current top of the viewport (pageYOffset)
+//   //
+//   // s1coords.top + window.pageYOffset
+//   // So, again, let's say I scrolled by 200px (this is the distance between the top of the document and the current top of the viewport), and there is 300px from the top of the first section to the top of the viewport. Together it gives us 200px + 300px = 500px.
+//   //
+//   // It may be confusing, so feel free to ask if you have any questions
+//   // window.scrollBy(s1Cords.left, s1Cords.top)
+//   //Note:-> For changing behavior pass in an object containing top,lefft and behaviour
+//   // window.scrollBy({
+//   //   top: s1Cords.top,
+//   //   left:s1Cords.left,
+//   //   behavior: "smooth"
+//   // });
+//   //There is one more method for scrolling.which is scrollIntoView, We use this method on a element and it scrolls to that specified element which work as below
+//   section1.scrollIntoView({behavior: "smooth"})
+// })
+
+//Types of Events and Event handlers
+
+//So an event is basically a signal (meaning that something has happened for ex-a click somewhere or mouse movement or the user triggering the full screen mode or anything of importance that happens on the web Page generates an event.)which is generated by a certain DOM Node
+
+const h1 = document.querySelector('h1')
+
+//Removing event handlers
+//For removing event handler we have to export the function into a named function. We use this event handler on the element from which we want to remove event listener and specify the event type and specify the callback function.If we want to listen to an event only once then we can use this inside the named callback function. We can use it wherever we want to though.
+const hoverHeadingAlert = function(){
+  alert('You are reading a heading')
+  // h1.removeEventListener('mouseenter', hoverHeadingAlert)
+}
+
+//mouseenter is like hover in css(when a certain element hovered)
+h1.addEventListener('mouseenter',hoverHeadingAlert)
+// we can use removeEventListener wherever we want to as below.
+setTimeout(()=> h1.removeEventListener('mouseenter', hoverHeadingAlert), 3000)
+// h1.removeEventListener('mouseenter', hoverHeadingAlert)
+
+//There is another way of attaching an event listener to an element. That is by using on'name of event' as below
+// h1.onmouseenter = function (){
+//   alert('You are reading a heading with onevent event listener')
+// }
+// NOTE:--> 1.onmouseenter do not override the previous event listener.
+//2.Using addEventListener we can add multiple event listeners for the same type of event. For example, we can add 2 event listeners for mouseenter and they won't override each other. but we can not do the same for the onevent over-rides the previous event listener.
+
+//Event propagation: Bubbling and Capturing
+//https://www.youtube.com/watch?v=SZhifL_Gi1E
+
+//Event propagation in practise(mainly event bubbling)
+
+const randomInt = (min, max)=> Math.floor(Math.random() * (max - min + 1) + min)
+const randomColor = ()=> `rgb(${randomInt(0,255)}, ${randomInt(0,255)}, ${randomInt(0,255)})`
+console.log(randomColor())
+console.log(randomInt(10,100))
+console.log(Math.random())
+document.querySelector('.nav__link').addEventListener('click', function (e){
+  // e.preventDefault()
+  console.log('Link', e.target , e.currentTarget);
+  this.style.backgroundColor = randomColor()
+  //stop propagation --> stops the event to propagate further.
+  e.stopPropagation()
 })
+document.querySelector('.nav__links').addEventListener('click', function (e){
+  console.log('Links', e.target, e.currentTarget)
+  // e.preventDefault()
+  this.style.backgroundColor = randomColor()
+})
+document.querySelector('.nav').addEventListener('click', function (e){
+  // e.preventDefault()
+  console.log('Nav', e.target, e.currentTarget)
+  this.style.backgroundColor = randomColor()
+  // e.stopPropagation()
+}, {capture: true})
+*/
