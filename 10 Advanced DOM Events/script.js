@@ -62,6 +62,21 @@ document.querySelector('.nav__links').addEventListener('click', function (e){
   }
 });
 
+//Tabbed Components.
+const tabs = document.querySelectorAll('.operations__tab');
+const tabContainer = document.querySelector('.operations__tab-container')
+const tabContent = document.querySelector('.operations__content')
+
+tabContainer.addEventListener('click', function(e){
+  let clicked = e.target.closest('.operations__tab')
+  //if clicked is null
+  if(!clicked) return
+  tabs.forEach((el)=> el.classList.remove('operations__tab--active'))
+  clicked.classList.add('operations__tab--active')
+  document.querySelectorAll(`.operations__content`).forEach(el=> el.classList.remove('operations__content--active'))
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
+})
+
 
 //////////////////////////////////////
 /*
@@ -313,3 +328,43 @@ document.querySelector('.nav').addEventListener('click', function (e){
   // e.stopPropagation()
 }, {capture: true})
 */
+/*
+//DOM traversing
+const h1 = document.querySelector('h1')
+//Going downward(Any Child)
+//Below will work no matter how deep the child elements are. If there will be other elements except the child of h1 then they will not be selected.
+console.log(h1.querySelectorAll('.highlight'))
+
+//Selecting only Direct child
+// console.log(h1.childNodes)
+console.log(h1.children)//Returns only the children of h1(span, br, span)
+
+//First and last element child
+h1.firstElementChild.style.color = 'white'
+h1.lastElementChild.style.color = 'Blue'
+
+//Going upwards(Selecting parents)
+//Direct parents
+console.log(h1.parentElement)
+
+//Closest parents with specified class
+//We can think of the closest method as opposite of querySelector because querySelector returns the child element no matter how deep it is while closest returns the parent element no matter how deep it is.
+h1.closest('.header').style.background = 'var(--color-secondary)'//Selected the closest header to our h1 and then applied the style to that element.
+//If the selector matches the element which we are calling the closest method on then it returns the element itself.
+h1.closest('h1').style.background = 'var(--gradient-primary )'
+
+//Going sideways (Selecting Siblings)
+
+console.log(h1.previousElementSibling)//Null because it is first child.
+console.log(h1.nextElementSibling)//h4
+// console.log(h1.previousSibling)//
+// console.log(h1.nextSibling)
+
+//Accesing all siblings
+console.log(h1.parentElement.children);//HTML collection of all the child elements within h1.parenElement including h1.
+[...h1.parentElement.children].forEach(function (el){
+  if(el !== h1.closest('h1')) {
+    el.style.transform = 'scale(0.5)'
+  }
+})
+ */
