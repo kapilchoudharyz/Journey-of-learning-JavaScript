@@ -1,47 +1,47 @@
-"use strict";
-const btnScrollTo = document.querySelector('.btn--scroll-to')
-const section1 = document.querySelector('#section--1')
-const nav = document.querySelector('nav')
+'use strict';
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const nav = document.querySelector('nav');
 const tabs = document.querySelectorAll('.operations__tab');
-const tabContainer = document.querySelector('.operations__tab-container')
-const tabContent = document.querySelector('.operations__content')
+const tabContainer = document.querySelector('.operations__tab-container');
+const tabContent = document.querySelector('.operations__content');
 ///////////////////////////////////////
 // Modal window
 
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
-const btnCloseModal = document.querySelector(".btn--close-modal");
-const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+const btnCloseModal = document.querySelector('.btn--close-modal');
+const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
 const openModal = function (e) {
   e.preventDefault();
-  modal.classList.remove("hidden");
-  overlay.classList.remove("hidden");
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
 };
 
 const closeModal = function () {
-  modal.classList.add("hidden");
-  overlay.classList.add("hidden");
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
 };
 
-btnsOpenModal.forEach((btn) => btn.addEventListener("click", openModal));
+btnsOpenModal.forEach((btn) => btn.addEventListener('click', openModal));
 
-btnCloseModal.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
+btnCloseModal.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
 
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
 });
 //Button scrolling.
-btnScrollTo.addEventListener('click', function (e){
+btnScrollTo.addEventListener('click', function (e) {
   let s1Cords = section1.getBoundingClientRect();
-  console.log(e.target.getBoundingClientRect())//Returns the position and size of element.
+  console.log(e.target.getBoundingClientRect()); //Returns the position and size of element.
   console.log(window.pageXOffset, window.pageYOffset);
-  console.log('s1Cords' ,s1Cords)
-  section1.scrollIntoView({behavior: "smooth"})
-})
+  console.log('s1Cords', s1Cords);
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
 ////////////////////////////////////////////////////
 //page navigation
 // document.querySelectorAll('.nav__link').forEach(function(el){
@@ -57,52 +57,52 @@ btnScrollTo.addEventListener('click', function (e){
 // In event delegation we need two steps.
 //1. We add the event listener to a common parent of the elements we are interested in.
 //2 Determine what element originated the event.
-document.querySelector('.nav__links').addEventListener('click', function (e){
-  e.preventDefault()
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
   //Matching strategy
-  if (e.target.classList.contains('nav__link')){
-    let el = e.target.getAttribute('href')
-    document.querySelector(el).scrollIntoView({behavior: 'smooth'})
+  if (e.target.classList.contains('nav__link')) {
+    let el = e.target.getAttribute('href');
+    document.querySelector(el).scrollIntoView({ behavior: 'smooth' });
   }
 });
 
 //Tabbed Components.
 
-
-tabContainer.addEventListener('click', function(e){
-  let clicked = e.target.closest('.operations__tab')
+tabContainer.addEventListener('click', function (e) {
+  let clicked = e.target.closest('.operations__tab');
   //if clicked is null
-  if(!clicked) return
-  tabs.forEach((el)=> el.classList.remove('operations__tab--active'))
-  clicked.classList.add('operations__tab--active')
-  document.querySelectorAll(`.operations__content`).forEach(el=> el.classList.remove('operations__content--active'))
-  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
-})
-
-
-
+  if (!clicked) return;
+  tabs.forEach((el) => el.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+  document
+    .querySelectorAll(`.operations__content`)
+    .forEach((el) => el.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
 
 //Menu fade animation
-const hoverHandler =  function (e){
+const hoverHandler = function (e) {
   // const opacity = this
-  if (e.target.classList.contains('nav__link')){
-    let hoveredLink = e.target
-    let siblings = hoveredLink.closest('nav').querySelectorAll('.nav__link')
-    const logo = hoveredLink.closest('nav').querySelector('.nav__logo')
+  if (e.target.classList.contains('nav__link')) {
+    let hoveredLink = e.target;
+    let siblings = hoveredLink.closest('nav').querySelectorAll('.nav__link');
+    const logo = hoveredLink.closest('nav').querySelector('.nav__logo');
     // console.log(siblings)
     siblings.forEach((el) => {
-      if (el !== hoveredLink){
-        el.style.opacity = this
+      if (el !== hoveredLink) {
+        el.style.opacity = this;
       }
-    })
-    logo.style.opacity = this
+    });
+    logo.style.opacity = this;
   }
-}
-nav.addEventListener('mouseover', hoverHandler.bind(0.5))
+};
+nav.addEventListener('mouseover', hoverHandler.bind(0.5));
 // nav.addEventListener('mouseover', function (e){
 //   hoverHandler(e ,0.5)
 // })
-nav.addEventListener('mouseout',hoverHandler.bind(1))
+nav.addEventListener('mouseout', hoverHandler.bind(1));
 // nav.addEventListener('mouseout', function (e){
 //   hoverHandler(e ,1)
 // })
@@ -124,70 +124,69 @@ nav.addEventListener('mouseout',hoverHandler.bind(1))
 // Achieving sticky on scroll using Intersection observer API
 
 //IntersectionObserver method.
-const header = document.querySelector('.header')
+const header = document.querySelector('.header');
 
-
-const stickyNav = (entries)=> {
+const stickyNav = (entries) => {
   //Note:-> entries is an array so always destructure it.
-  const [entry] = entries
-  if (!entry.isIntersecting){
-    nav.classList.add('sticky')
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
   }
-  else{
-    nav.classList.remove('sticky')
-  }
-}
+};
 const options = {
-  root: null,//For the whole viewport
+  root: null, //For the whole viewport
   threshold: 0,
   rootMargin: `-${nav.getBoundingClientRect().height}px`,
-}
-const observer = new IntersectionObserver(stickyNav, options)
-observer.observe(header)
+};
+const observer = new IntersectionObserver(stickyNav, options);
+observer.observe(header);
 
 //Revealing elements on slide
 
-const sections = document.querySelectorAll('.section')
-const revealSection = function (entries, observer){
-  const [entry] = entries
-  if (!entry.isIntersecting) return
-    entry.target.classList.remove('section--hidden')
-    observer.unobserve(entry.target)
-}
+const sections = document.querySelectorAll('.section');
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
 const sectionObserver = new IntersectionObserver(revealSection, {
   threshold: 0.15,
   root: null,
-})
-sections.forEach(section => {
-  sectionObserver.observe(section)
-  section.classList.add('section--hidden')
-})
+});
+sections.forEach((section) => {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
 
-const imgTargets = document.querySelectorAll('img[data-src]')
-const loadImg = function (entries, observer){
-  const [entry] = entries
-  if (!entry.isIntersecting) return
-  entry.target.src = entry.target.dataset.src
-  entry.target.addEventListener('load', function (e){
-    entry.target.classList.remove('lazy-img')
-  })
+const imgTargets = document.querySelectorAll('img[data-src]');
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
 
-  observer.unobserve(entry.target)
-}
-const imgObserver = new IntersectionObserver(loadImg,{
+  observer.unobserve(entry.target);
+};
+const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
   threshold: 0,
-  rootMargin: '200px'
-})
-imgTargets.forEach(el=> imgObserver.observe(el))
+  rootMargin: '200px',
+});
+imgTargets.forEach((el) => imgObserver.observe(el));
 
 //slider
-const slides = document.querySelectorAll('.slide')
-const btnLeft = document.querySelector('.slider__btn--left')
-const btnRight = document.querySelector('.slider__btn--right')
-let curSlide = 0
-const slider = document.querySelector('.slider')
-const maxSlide = slides.length
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+let curSlide = 0;
+const slider = document.querySelector('.slider');
+const maxSlide = slides.length;
+let dotsContainer = document.querySelector('.dots');
 // slider.style.transform = 'scale(0.4)'
 // slider.style.overflow = 'visible'
 
@@ -196,51 +195,76 @@ const maxSlide = slides.length
 //   slide.style.transform = `translateX(${100 * i}%)`
 //
 // })
-const goToSlide = function (){
-  slides.forEach(function (slide, i){
-    slide.style.transform = `translateX(${100 * (i - curSlide)}%)`
-  })
-}
-goToSlide()
+const createDots = function () {
+  slides.forEach((_, i) => {
+    dotsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+createDots();
+const activateSlide = function (slide) {
+  document.querySelectorAll('.dots__dot').forEach((el) => {
+    el.classList.remove('dots__dot--active');
+    document
+      .querySelector(`.dots__dot[data-slide='${slide}']`)
+      .classList.add('dots__dot--active');
+  });
+};
+activateSlide(curSlide);
+console.log(curSlide);
+const goToSlide = function (slide) {
+  console.log(slide);
+  slides.forEach(function (s, i) {
+    s.style.transform = `translateX(${100 * (i - slide)}%)`;
+  });
+  activateSlide(slide);
+};
+goToSlide(0);
 
-const nextSlide = function (){
-  if (curSlide === maxSlide - 1){
-    curSlide = 0
-  } else{
-    curSlide++
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
   }
-  goToSlide()
-}
-const previousSlide = function (e){
-  console.log(e)
-  if (curSlide === 0){
-    curSlide = maxSlide - 1
-  }else{
-    curSlide--
+  goToSlide(curSlide);
+};
+const previousSlide = function () {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
   }
-  goToSlide()
+  goToSlide(curSlide);
+};
+btnRight.addEventListener('click', nextSlide);
 
-}
-btnRight.addEventListener('click', nextSlide)
-
-btnLeft.addEventListener('click', previousSlide)
-const btnObserver = new IntersectionObserver(function (entries, observer){
-  const [entry] = entries
-  console.log(entry)
-  if (entry.isIntersecting){
-    console.log('working')
-  document.addEventListener('keydown', function (e){
-    console.log('Working2')
-    if (e.key === 'ArrowRight') nextSlide()
-    e.key === 'ArrowLeft' && previousSlide()
-  })
+btnLeft.addEventListener('click', previousSlide);
+const btnObserver = new IntersectionObserver(
+  function (entries) {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') nextSlide();
+        e.key === 'ArrowLeft' && previousSlide();
+      });
+    }
+  },
+  {
+    root: null,
+    threshold: 0.2,
+    rootMargin: '200px',
   }
-}, {
-  root: null,
-  threshold: 0,
-  rootMargin: '00px'
-})
-btnObserver.observe(sections[2])
+);
+btnObserver.observe(sections[2]);
+dotsContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const slide = +e.target.dataset.slide;
+    goToSlide(slide);
+  }
+});
 //////////////////////////////////////
 /*
 //How the DOM really works
@@ -396,7 +420,6 @@ console.log(logo.classList.contains('j'))//True if the class exist otherwise fal
 //We can also use className But we DO NOT use it because it overwrites all the pre-existing classes/
 // logo.className = 'Kapil'
 */
-
 
 /*
 //getBoundingClientRect returns the size of an element and its position w.r.t. viewport(Returns these eight properties:--> eft, top, right, bottom, x, y, width, height.
