@@ -568,3 +568,29 @@ console.log(h1.parentElement.children);//HTML collection of all the child elemen
   }
 })
  */
+
+// Events that occur in the DOM during a webpage's life cycle.
+//Life cycle of web page -->Right from the moment that the page is accessed, until the user leaves it.
+
+//event-->DOM content loaded event - This event is 'fired by the document' as soon as the HTML is completely parsed which means that the html has been downloaded and been converted th the DOM tree.Also, all scripts must be downloaded and executed before the DOM content loaded event can happen.
+//Note:-> DOMcontentloaded event don't wait for the images and external resources(ex- css) to load.So just html and JS need to be loaded.
+//listening to DOM content loaded event.
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parsed and DOM tree built!', e);
+});
+//We don't have to wrap our all code inside the above handler because we accessed the script in the end of HTMl file meaning it will be loaded after the HTML.
+
+//event -->load event-> Load event is 'fired by the window' as soon as not only HTML is parsed, but also the all the images and external resources like css files are also loaded. Basically when the complete page has finished loading is when the load event is fired.
+
+//listening to the load event.
+window.addEventListener('load', (e) => {
+  console.log('Everything has been loaded.', e);
+});
+
+//event --> beforeunload event -This event is created by the window immediately before a user is about to leave a page.(EX- after clicking the close button on the browser tab.
+//Note:- On some browser to beforeunload to work we have to make some interaction with the page.
+// window.addEventListener('beforeunload', (e) => {
+//   e.preventDefault(); //In some browser we have to use the preventDefault to make it work.
+//   // console.log(e);
+//   e.returnValue = ''; //We have to write this line to make it work.
+// });
