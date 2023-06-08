@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49e93423-0fb1-4860-9978-68bf9655174a" name="Changes" comment="Commit dated 29/05/2023">
-      <change afterPath="$PROJECT_DIR$/j.js" afterDir="false" />
+    <list default="true" id="49e93423-0fb1-4860-9978-68bf9655174a" name="Changes" comment="Commit dated 02/06/2023">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
@@ -49,7 +48,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/kapil/Web Development/udemy/JavaScript/Coding challenges&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kapil/Web Development/udemy/React&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -57,7 +56,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/usr/lib/node_modules/prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -75,7 +74,15 @@
       <workItem from="1685532982069" duration="226000" />
       <workItem from="1685533217322" duration="118000" />
       <workItem from="1685533344927" duration="7495000" />
-      <workItem from="1685669318203" duration="1561000" />
+      <workItem from="1685669318203" duration="3494000" />
+      <workItem from="1685791353394" duration="379000" />
+      <workItem from="1685847101232" duration="359000" />
+      <workItem from="1685847469890" duration="66000" />
+      <workItem from="1685878710980" duration="2015000" />
+      <workItem from="1686047089491" duration="3188000" />
+      <workItem from="1686065490037" duration="1344000" />
+      <workItem from="1686102227647" duration="8387000" />
+      <workItem from="1686186203803" duration="672000" />
     </task>
     <task id="LOCAL-00001" summary="Commit dated 29/05/2023">
       <created>1685273487860</created>
@@ -91,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685533049401</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Commit dated 02/06/2023">
+      <created>1685671174812</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685671174812</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,6 +114,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Commit dated 29/05/2023" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit dated 29/05/2023" />
+    <MESSAGE value="Commit dated 02/06/2023" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit dated 02/06/2023" />
   </component>
 </project>
