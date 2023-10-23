@@ -1,7 +1,19 @@
 'use strict';
 
-// prettier-ignore
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
@@ -16,6 +28,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
+
   // clicks = 0;
 
   constructor(coords, distance, duration) {
@@ -288,6 +301,7 @@ class App {
       this.#renderWorkout(work);
     });
   }
+
   reset() {
     localStorage.removeItem('workouts');
     location.reload();
