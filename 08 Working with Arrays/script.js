@@ -5,16 +5,17 @@
 // BANKIST APP
 
 // Data
+alert('Users are user1:{username:kk, pass:1111} user2{username:nc, pass:2222}')
 let t0 = performance.now();
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'kapil kumar',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Nishu Choudhary',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -28,7 +29,7 @@ const account3 = {
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Piranah Smith',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,

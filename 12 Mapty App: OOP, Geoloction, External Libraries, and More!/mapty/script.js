@@ -14,7 +14,7 @@ const months = [
   'November',
   'December',
 ];
-
+alert('Please enable desktop mode as mobile view is still under development. :)')
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
